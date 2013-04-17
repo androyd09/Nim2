@@ -156,34 +156,8 @@ namespace Nim
 
         public void computersTurn()
         {
-            Random gen = new Random();
-            if(row1!=0)
-            {
-                for (int i = row1 - 1; i > 0; i--)
-                {
-                    turnCombos.Add(new CombinationObject(i,row2,row3));
-                }
-                printRows();
-            }
-            if (row2 != 0)
-            {
-                for (int i = row2 - 1; i > 0; i--)
-                {
-                    turnCombos.Add(new CombinationObject(row1, i, row3));
-                }
-                printRows();
-            }
-            if(row3 !=0)
-            {
-                for (int i = row3 - 1; i > 0; i--)
-                {
-                    turnCombos.Add(new CombinationObject(row1, row2, i));
-                }
-                printRows();
-            }
-
-            int index = gen.Next(turnCombos.Count);
-            CombinationObject move = turnCombos.get(index);
+            ComputerLogic cpu = new ComputerLogic(row1,row2,row3);
+            printRows();
             turnsTaken[count] = computerMoves;
             computerMoves++;
             count++;

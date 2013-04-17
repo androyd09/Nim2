@@ -22,7 +22,6 @@ namespace Nim
                 {
                     turnCombos.Add(new CombinationObject(i, row2, row3));
                 }
-                Play.printRows();
             }
             if (row2 != 0)
             {
@@ -30,7 +29,6 @@ namespace Nim
                 {
                     turnCombos.Add(new CombinationObject(row1, i, row3));
                 }
-                printRows();
             }
             if (row3 != 0)
             {
@@ -38,11 +36,10 @@ namespace Nim
                 {
                     turnCombos.Add(new CombinationObject(row1, row2, i));
                 }
-                Program.play.printRows();
             }
 
             int index = gen.Next(turnCombos.Count);
-            CombinationObject move = turnCombos.Get(index);
+            CombinationObject move = turnCombos.get(index);
         }
 
     }
