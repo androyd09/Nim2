@@ -11,7 +11,7 @@ namespace Nim
 
     class ComputerLogic
     {
-        List<CombinationObject> turnCombos = new List<CombinationObject>();
+        ArrayList turnCombos = new ArrayList();
 
         public ComputerLogic(int row1, int row2, int row3)
         {
@@ -39,7 +39,7 @@ namespace Nim
             }
 
             int index = gen.Next(turnCombos.Count);
-            CombinationObject move = turnCombos[index];
+            CombinationObject move = turnCombos.get(index);
         }
 
     }
