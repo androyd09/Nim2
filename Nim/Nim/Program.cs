@@ -19,8 +19,6 @@ namespace Nim
             {
                 tryagain = false;
                 Play play = new Play(answer);
-                
-                //LH.printLogic();
             }
             else
             {
