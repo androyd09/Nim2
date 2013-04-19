@@ -68,8 +68,6 @@ namespace Nim
                 {
                     computersTurn();
                     gameOver = currentState.checkForGameOver();
-                    computersTurn();
-                    gameOver = currentState.checkForGameOver();
                 }
                 while (!gameOver);
                 countdown--;

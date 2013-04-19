@@ -50,16 +50,17 @@ namespace Nim
 
         public int[] getRandomMove()
         {
-            int index = gen.Next(turnCombos.Count);
-            GameState move = turnCombos[index];
-            int pieces = 0;
-            int row = 0;
-            if (row1 != move.row1)
+            GameState move;
+            Console.WriteLine("TurnCombos: " + turnCombos.Count);
+            int index = gen.Next(0, turnCombos.Count-1);
+            move = turnCombos[index];
+            int pieces = 1;
+            int row = 1;
+            if (row1 > move.row1)
             {
                 pieces = row1 - move.row1;
-                row = 1;
             }
-            else if (row2 != move.row2)
+            else if (row2 > move.row2)
             {
                 pieces = row2 - move.row2;
                 row = 2;
