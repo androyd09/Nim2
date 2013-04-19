@@ -15,6 +15,7 @@ namespace Nim
 
         public ComputerLogic(int row1, int row2, int row3)
         {
+
             Random gen = new Random();
             if (row1 != 0)
             {

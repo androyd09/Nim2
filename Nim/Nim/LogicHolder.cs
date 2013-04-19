@@ -52,7 +52,7 @@ namespace Nim
 
         public void posNegLogic(int row1, int row2, int row3, int playerMoves)
         {
-            moveValue = moveValue + (1 / playerMoves);
+            moveValue += (1 / playerMoves);
         }
 
     }

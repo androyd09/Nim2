@@ -43,12 +43,12 @@ namespace Nim
             Console.WriteLine("1 2 3");
             Console.WriteLine("------");
             //
-            printRows();
+            printRows(row1,row2,row3);
         }
 
-        public void printRows()
+        public void printRows(int r1, int r2, int r3)
         {
-            Console.WriteLine(LH.printLogic(row1,row2,row3));
+            Console.WriteLine(LH.printLogic(r1,r2,r3));
             Console.WriteLine();
         }
 
@@ -157,7 +157,7 @@ namespace Nim
         public void computersTurn()
         {
             ComputerLogic cpu = new ComputerLogic(row1,row2,row3);
-            printRows();
+            printRows(row1,row2,row3);
             turnsTaken[count] = computerMoves;
             computerMoves++;
             count++;
