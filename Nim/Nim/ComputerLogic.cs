@@ -11,7 +11,9 @@ namespace Nim
 
     class ComputerLogic
     {
-        List<CombinationObject> turnCombos = new List<CombinationObject>();
+
+
+        List<CombinationObject>  turnCombos = new List<CombinationObject>();
 
         public ComputerLogic(int row1, int row2, int row3)
         {
