@@ -13,7 +13,7 @@ namespace Nim
         int computerMoves = 0;
         int count = 0;
         CombinationObject currentBoard;
-        ArrayList turnCombos = new ArrayList();
+        //ArrayList turnCombos = new ArrayList();
         int[] turnsTaken = new int[15];
         LogicHolder LH = new LogicHolder();
 
@@ -35,7 +35,7 @@ namespace Nim
 
         public void newGame()
         {
-            
+
             row1 = 3;
             row2 = 5;
             row3 = 7;
@@ -48,7 +48,7 @@ namespace Nim
 
         public void printRows()
         {
-            Console.WriteLine(LH.printLogic(row1,row2,row3));
+            Console.WriteLine(LH.printLogic(row1, row2, row3));
             Console.WriteLine();
         }
 
@@ -70,8 +70,8 @@ namespace Nim
                     gameOver = true;
                 }
             }
-            while(!gameOver);
-           
+            while (!gameOver);
+
             Console.WriteLine("Do you want to play again? y/n");
             string again = Console.ReadLine();
             if (again.Equals("y"))
@@ -106,7 +106,7 @@ namespace Nim
                 }
                 while (!gameOver);
             }
-            while(countdown > 0);
+            while (countdown > 0);
         }
 
         public void playersTurn()
@@ -114,7 +114,7 @@ namespace Nim
             bool done = false;
             int row = 0;
             int pieces = 0;
-            
+
             try
             {
                 //Pick Row
@@ -126,7 +126,7 @@ namespace Nim
                     {
                         done = checkRow(row);
                     }
-                    
+
                 }
                 while (!done);
 
@@ -156,18 +156,18 @@ namespace Nim
 
         public void computersTurn()
         {
-            ComputerLogic cpu = new ComputerLogic(row1,row2,row3);
+            ComputerLogic cpu = new ComputerLogic(row1, row2, row3);
             printRows();
             turnsTaken[count] = computerMoves;
             computerMoves++;
             count++;
-            
+
         }
 
         public bool checkRow(int row)
         {
             bool notZero = false;
-            if(row == 1 && row1 > 0)
+            if (row == 1 && row1 > 0)
             {
                 notZero = true;
             }
@@ -220,7 +220,7 @@ namespace Nim
         public bool checkForGameOver()
         {
             bool gameover = false;
-            if(row1 == 0 && row2 == 0 && row3 == 0)
+            if (row1 == 0 && row2 == 0 && row3 == 0)
             {
                 gameover = true;
             }
