@@ -8,11 +8,11 @@ namespace Nim
 {
     class Play
     {
-        public int row1, row2, row3;
+
+        GameState currentState;
         int playerMoves = 0;
         int computerMoves = 0;
         int count = 0;
-        CombinationObject currentBoard;
         ArrayList turnCombos = new ArrayList();
         int[] turnsTaken = new int[15];
         LogicHolder LH = new LogicHolder();
@@ -23,68 +23,42 @@ namespace Nim
             LH.combinationMaker();
             if (answer == 1)
             {
-                pvc();
+                playerVsComputer();
             }
             else
             {
                 Console.WriteLine("How many times should they battle?");
                 int battleNumber = Convert.ToInt32(Console.ReadLine());
-                cvc(battleNumber);
+                ComputerVsComputer(battleNumber);
             }
         }
 
         public void newGame()
         {
-            
-            row1 = 3;
-            row2 = 5;
-            row3 = 7;
+            currentState = new GameState(3, 5, 7);
             Console.WriteLine("GAME START");
             Console.WriteLine("1 2 3");
             Console.WriteLine("------");
-            //
-            printRows(row1,row2,row3);
+            currentState.printGameState();
         }
 
-        public void printRows(int r1, int r2, int r3)
-        {
-            Console.WriteLine(LH.printLogic(r1,r2,r3));
-            Console.WriteLine();
-        }
-
-        public void pvc()
+        public void playerVsComputer()
         {
             newGame();
             bool gameOver = false;
             do
             {
                 playersTurn();
-                if (checkForGameOver())
-                {
-                    gameOver = true;
-                }
-
+                gameOver = currentState.checkForGameOver();
                 computersTurn();
-                if (checkForGameOver())
-                {
-                    gameOver = true;
-                }
+                gameOver = currentState.checkForGameOver();
             }
             while(!gameOver);
-           
-            Console.WriteLine("Do you want to play again? y/n");
-            string again = Console.ReadLine();
-            if (again.Equals("y"))
-            {
-                pvc();
-            }
-            else
-            {
-                Console.WriteLine("Goodbye");
-            }
+            askToPlayAgain();
+            
         }
 
-        public void cvc(int countdown)
+        public void ComputerVsComputer(int countdown)
         {
             do
             {
@@ -93,18 +67,12 @@ namespace Nim
                 do
                 {
                     computersTurn();
-                    if (checkForGameOver())
-                    {
-                        gameOver = true;
-                    }
-
+                    gameOver = currentState.checkForGameOver();
                     computersTurn();
-                    if (checkForGameOver())
-                    {
-                        gameOver = true;
-                    }
+                    gameOver = currentState.checkForGameOver();
                 }
                 while (!gameOver);
+                countdown--;
             }
             while(countdown > 0);
         }
@@ -141,11 +109,12 @@ namespace Nim
                 }
                 while (!done);
 
-                makeMove(row, pieces);
+                currentState.makeMove(row, pieces);
             }
             catch (Exception e)
             {
                 Console.WriteLine("OOPS TRY AGAIN");
+                Console.WriteLine(e.Message);
                 playersTurn();
             }
 
@@ -156,8 +125,9 @@ namespace Nim
 
         public void computersTurn()
         {
-            ComputerLogic cpu = new ComputerLogic(row1,row2,row3);
-            printRows(row1,row2,row3);
+            ComputerLogic cpu = new ComputerLogic(currentState.row1, currentState.row2, currentState.row3);
+            int[] cpuMove = cpu.getRandomMove();
+            currentState.makeMove(cpuMove[0], cpuMove[1]);
             turnsTaken[count] = computerMoves;
             computerMoves++;
             count++;
@@ -167,64 +137,35 @@ namespace Nim
         public bool checkRow(int row)
         {
             bool notZero = false;
-            if(row == 1 && row1 > 0)
-            {
+            if(row == 1 && currentState.row1 > 0)
                 notZero = true;
-            }
-            else if (row == 2 && row2 > 0)
-            {
+            else if (row == 2 && currentState.row2 > 0)
                 notZero = true;
-            }
-            else if (row == 3 && row3 > 0)
-            {
+            else if (row == 3 && currentState.row3 > 0)
                 notZero = true;
-            }
             return notZero;
         }
 
         public bool checkMove(int row, int num)
         {
             bool canMove = false;
-            if (row == 1 && row1 >= num)
-            {
+            if (row == 1 && currentState.row1 >= num)
                 canMove = true;
-            }
-            else if (row == 2 && row2 >= num)
-            {
+            else if (row == 2 && currentState.row2 >= num)
                 canMove = true;
-            }
-            else if (row == 3 && row3 >= num)
-            {
+            else if (row == 3 && currentState.row3 >= num)
                 canMove = true;
-            }
             return canMove;
         }
 
-        public void makeMove(int row, int num)
+        public void askToPlayAgain()
         {
-            if (row == 1)
-            {
-                row1 -= num;
-            }
-            else if (row == 2)
-            {
-                row2 -= num;
-            }
+            Console.WriteLine("Do you want to play again? y/n");
+            string again = Console.ReadLine();
+            if (again.Equals("y"))
+                playerVsComputer();
             else
-            {
-                row3 -= num;
-            }
-            printRows();
-        }
-
-        public bool checkForGameOver()
-        {
-            bool gameover = false;
-            if(row1 == 0 && row2 == 0 && row3 == 0)
-            {
-                gameover = true;
-            }
-            return gameover;
+                Console.WriteLine("Goodbye");
         }
     }
 

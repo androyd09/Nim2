@@ -11,36 +11,66 @@ namespace Nim
 
     class ComputerLogic
     {
-        List<CombinationObject> turnCombos = new List<CombinationObject>();
+        List<GameState> turnCombos = new List<GameState>();
+        private int row1, row2, row3;
+        Random gen = new Random();
 
-        public ComputerLogic(int row1, int row2, int row3)
+        public ComputerLogic(int _row1, int _row2, int _row3)
         {
+            row1 = _row1;
+            row2 = _row2;
+            row3 = _row3;
+            findPossibleMoves();
+        }
 
-            Random gen = new Random();
-            if (row1 != 0)
+        public void findPossibleMoves()
+        {
+            if (row1 >= 0)
             {
-                for (int i = row1 - 1; i > 0; i--)
+                for (int i = row1 - 1; i >= 0; i--)
                 {
-                    turnCombos.Add(new CombinationObject(i, row2, row3));
+                    turnCombos.Add(new GameState(i, row2, row3));
                 }
             }
-            if (row2 != 0)
+            if (row2 >= 0)
             {
-                for (int i = row2 - 1; i > 0; i--)
+                for (int i = row2 - 1; i >= 0; i--)
                 {
-                    turnCombos.Add(new CombinationObject(row1, i, row3));
+                    turnCombos.Add(new GameState(row1, i, row3));
                 }
             }
-            if (row3 != 0)
+            if (row3 >= 0)
             {
-                for (int i = row3 - 1; i > 0; i--)
+                for (int i = row3 - 1; i >= 0; i--)
                 {
-                    turnCombos.Add(new CombinationObject(row1, row2, i));
+                    turnCombos.Add(new GameState(row1, row2, i));
                 }
             }
+        }
 
+        public int[] getRandomMove()
+        {
             int index = gen.Next(turnCombos.Count);
-            CombinationObject move = turnCombos[index];
+            GameState move = turnCombos[index];
+            int pieces = 0;
+            int row = 0;
+            if (row1 != move.row1)
+            {
+                pieces = row1 - move.row1;
+                row = 1;
+            }
+            else if (row2 != move.row2)
+            {
+                pieces = row2 - move.row2;
+                row = 2;
+            }
+            else
+            {
+                pieces = row3 - move.row3;
+                row = 3;
+            }
+            
+            return new int[]{row, pieces};
         }
 
     }
