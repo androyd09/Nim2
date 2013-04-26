@@ -13,7 +13,7 @@ namespace Nim
             do
             {
 
-            Console.WriteLine("Welcome, 1) Player Vs Computer or 2) Computer Vs Computer");
+            Console.WriteLine("Welcome, \n1) Player Vs Computer \n2) Computer Vs Computer");//changed this to print in multiple rows
             int answer = Convert.ToInt32(Console.ReadLine());
             if (answer == 1 || answer == 2)
             {

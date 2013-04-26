@@ -71,7 +71,7 @@ namespace Nim
                 row = 3;
             }
             
-            return new int[]{row, pieces};
+            return new int[]{row, pieces};// make use of the move here instead of this array
         }
 
     }

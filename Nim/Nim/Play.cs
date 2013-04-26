@@ -14,12 +14,13 @@ namespace Nim
         int computerMoves = 0;
         int count = 0;
         ArrayList turnCombos = new ArrayList();
-        int[] turnsTaken = new int[15];
-        LogicHolder LH = new LogicHolder();
+        int[] turnsTaken = new int[500];//fixed error
+        
 
 
         public Play(int answer)
         {
+            LogicHolder LH = new LogicHolder();
             LH.combinationMaker();
             if (answer == 1)
             {
@@ -46,21 +47,27 @@ namespace Nim
         {
             newGame();
             bool gameOver = false;
-            do
+            while (!gameOver)
             {
                 playersTurn();
                 gameOver = currentState.checkForGameOver();
+                if (gameOver)
+                {
+                    break;
+                }
+                
                 computersTurn();
                 gameOver = currentState.checkForGameOver();
+                
             }
-            while(!gameOver);
+            
             askToPlayAgain();
             
         }
 
         public void ComputerVsComputer(int countdown)
         {
-            do
+            for (int i = countdown; i > 0;i-- )
             {
                 newGame();
                 bool gameOver = false;
@@ -70,9 +77,7 @@ namespace Nim
                     gameOver = currentState.checkForGameOver();
                 }
                 while (!gameOver);
-                countdown--;
             }
-            while(countdown > 0);
         }
 
         public void playersTurn()
