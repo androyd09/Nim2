@@ -1,4 +1,4 @@
-﻿	﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
@@ -48,10 +48,14 @@ namespace Nim
             }
         }
 
+        public void findBestMove()
+        {
+
+        }
+
         public int[] getRandomMove()
         {
             GameState move;
-            Console.WriteLine("TurnCombos: " + turnCombos.Count);
             int index = gen.Next(0, turnCombos.Count-1);
             move = turnCombos[index];
             int pieces = 1;

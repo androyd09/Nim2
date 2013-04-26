@@ -10,19 +10,21 @@ namespace Nim
     {
 
         GameState currentState;
-        int playerMoves = 0;
-        int computerMoves = 0;
         int count = 0;
         ArrayList turnCombos = new ArrayList();
-        int[] turnsTaken = new int[500];//fixed error
-        
+        Dictionary<int, GameState> turnsTaken = new Dictionary<int,GameState>();
+        Learner learn = new Learner();
+        string whoGoesFirst;
 
 
         public Play(int answer)
         {
-            LogicHolder LH = new LogicHolder();
-            LH.combinationMaker();
-            if (answer == 1)
+            gameTypeChooser(answer);
+        }
+
+        public void gameTypeChooser(int gameType)
+        {
+            if (gameType == 1)
             {
                 playerVsComputer();
             }
@@ -36,11 +38,22 @@ namespace Nim
 
         public void newGame()
         {
+            turnsTaken.Clear();
             currentState = new GameState(3, 5, 7);
             Console.WriteLine("GAME START");
             Console.WriteLine("1 2 3");
             Console.WriteLine("------");
             currentState.printGameState();
+        }
+
+        public void pickWhoGoesFirst()
+        {
+            Random gen = new Random();
+            int randomNumber = gen.Next();
+            if (randomNumber % 2 == 0)
+                whoGoesFirst = "CPU1";
+            else
+                whoGoesFirst = "CPU2";
         }
 
         public void playerVsComputer()
@@ -53,11 +66,16 @@ namespace Nim
                 gameOver = currentState.checkForGameOver();
                 if (gameOver)
                 {
+                    Console.WriteLine("YOU LOST!\n");
                     break;
                 }
                 
                 computersTurn();
                 gameOver = currentState.checkForGameOver();
+                if (gameOver)
+                {
+                    Console.WriteLine("YOU WON!\n");
+                }
                 
             }
             
@@ -70,6 +88,7 @@ namespace Nim
             for (int i = countdown; i > 0;i-- )
             {
                 newGame();
+                pickWhoGoesFirst();
                 bool gameOver = false;
                 do
                 {
@@ -77,7 +96,9 @@ namespace Nim
                     gameOver = currentState.checkForGameOver();
                 }
                 while (!gameOver);
+                calulateWhoWon();
             }
+            askToPlayAgain();
         }
 
         public void playersTurn()
@@ -120,9 +141,6 @@ namespace Nim
                 Console.WriteLine(e.Message);
                 playersTurn();
             }
-
-            turnsTaken[count] = playerMoves;
-            playerMoves++;
             count++;
         }
 
@@ -131,9 +149,8 @@ namespace Nim
             ComputerLogic cpu = new ComputerLogic(currentState.row1, currentState.row2, currentState.row3);
             int[] cpuMove = cpu.getRandomMove();
             currentState.makeMove(cpuMove[0], cpuMove[1]);
-            turnsTaken[count] = computerMoves;
-            computerMoves++;
             count++;
+            turnsTaken.Add(count, currentState);
             
         }
 
@@ -166,9 +183,30 @@ namespace Nim
             Console.WriteLine("Do you want to play again? y/n");
             string again = Console.ReadLine();
             if (again.Equals("y"))
-                playerVsComputer();
+            {
+                Console.WriteLine("1 - Player Vs CPU\n2 - CPU Vs CPU");
+                int gameType = Convert.ToInt32(Console.ReadLine());
+                gameTypeChooser(gameType);
+            }
             else
                 Console.WriteLine("Goodbye");
+        }
+
+        public void calulateWhoWon()
+        {
+            string whoWon;
+            Console.WriteLine("\nWho went first: " + whoGoesFirst + "\nNumber of turns taken: " + count);
+            if ((whoGoesFirst.Equals("CPU1") && count % 2 == 0) ||
+                (whoGoesFirst.Equals("CPU2") && count % 2 == 1))
+                whoWon = "CPU1";
+            else
+                whoWon = "CPU2";
+
+            Console.WriteLine(whoWon + " WINS!\n");
+            if (whoGoesFirst.Equals(whoWon))
+                learn.updateStates(true, turnsTaken);
+            else
+                learn.updateStates(false, turnsTaken);
         }
     }
 

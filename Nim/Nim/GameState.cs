@@ -10,6 +10,7 @@ namespace Nim
         public int row1 { get; private set; }
         public int row2 { get; private set; }
         public int row3 { get; private set; }
+        public int value { get; private set; }
         private bool gameOver;
 
         public GameState(int _row1, int _row2, int _row3)

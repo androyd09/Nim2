@@ -46,6 +46,7 @@
     <Compile Include="CombinationObject.cs" />
     <Compile Include="ComputerLogic.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="Learner.cs" />
     <Compile Include="LogicHolder.cs" />
     <Compile Include="Play.cs" />
     <Compile Include="Program.cs" />
