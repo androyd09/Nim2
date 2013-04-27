@@ -7,7 +7,7 @@ namespace Nim
 {
     class Learner
     {
-        private Dictionary<GameState, int> moves = new Dictionary<GameState, int>();
+        public Dictionary<GameState, int> moves = new Dictionary<GameState, int>();
         private const int MAX_VALUE = 10;
         private const int MIN_VALUE = -10; 
 
@@ -49,14 +49,40 @@ namespace Nim
         {
             int value = moves[state];
             if (value < MAX_VALUE)
-                moves[state] = value++;
+                this.moves[state] = value+1;
         }
 
         private void valueDown(GameState state)
         {
             int value = moves[state];
             if (value > MIN_VALUE)
-                moves[state] = value--;
+                this.moves[state] = value-1;
+        }
+
+        public GameState pickBestMove(List<GameState> possibleMoves)
+        {
+            GameState bestMove = null;
+            int highestValue = MIN_VALUE;
+            foreach (GameState state in possibleMoves)
+            {
+                int value = moves[state];
+                if (value >= highestValue)
+                {
+                    highestValue = value;
+                    bestMove = state;
+                }
+
+            }
+            /*foreach(GameState state in possibleMoves)
+            {
+                int value = moves[state];
+                if (value != highestValue)
+                {
+                    possibleMoves.Remove(state);
+                }
+            }
+            bestMove = possibleMoves[0];*/
+            return bestMove;
         }
     }
 }

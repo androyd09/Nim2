@@ -9,7 +9,7 @@ namespace Nim
     class Play
     {
 
-        GameState currentState;
+        public GameState currentState;
         int count = 0;
         ArrayList turnCombos = new ArrayList();
         Dictionary<int, GameState> turnsTaken = new Dictionary<int,GameState>();
@@ -38,6 +38,7 @@ namespace Nim
 
         public void newGame()
         {
+            count = 0;
             turnsTaken.Clear();
             currentState = new GameState(3, 5, 7);
             Console.WriteLine("GAME START");
@@ -147,10 +148,10 @@ namespace Nim
         public void computersTurn()
         {
             ComputerLogic cpu = new ComputerLogic(currentState.row1, currentState.row2, currentState.row3);
-            int[] cpuMove = cpu.getRandomMove();
+            int[] cpuMove = cpu.findBestMove(learn);
             currentState.makeMove(cpuMove[0], cpuMove[1]);
             count++;
-            turnsTaken.Add(count, currentState);
+            turnsTaken.Add(count, new GameState(currentState.row1, currentState.row2, currentState.row3));
             
         }
 
@@ -204,9 +205,9 @@ namespace Nim
 
             Console.WriteLine(whoWon + " WINS!\n");
             if (whoGoesFirst.Equals(whoWon))
-                learn.updateStates(true, turnsTaken);
-            else
                 learn.updateStates(false, turnsTaken);
+            else
+                learn.updateStates(true, turnsTaken);
         }
     }
 
