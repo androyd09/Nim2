@@ -59,9 +59,8 @@ namespace Nim
                 this.moves[state] = value-1;
         }
 
-        public GameState pickBestMove(List<GameState> possibleMoves)
+        public GameState pickBestMoves(List<GameState> possibleMoves)
         {
-            GameState bestMove = null;
             int highestValue = MIN_VALUE;
             foreach (GameState state in possibleMoves)
             {
@@ -69,19 +68,27 @@ namespace Nim
                 if (value >= highestValue)
                 {
                     highestValue = value;
-                    bestMove = state;
                 }
 
             }
-            /*foreach(GameState state in possibleMoves)
+            return pickBestMove(possibleMoves, highestValue);
+        }
+
+        public GameState pickBestMove(List<GameState> possibleMoves, int highestValue)
+        {
+            Random gen = new Random();
+            GameState bestMove = null;
+            List<GameState> bestMoves = new List<GameState>();
+            foreach (GameState state in possibleMoves)
             {
                 int value = moves[state];
-                if (value != highestValue)
+                if (value == highestValue)
                 {
-                    possibleMoves.Remove(state);
+                    bestMoves.Add(state);
                 }
             }
-            bestMove = possibleMoves[0];*/
+            int index = gen.Next(0, bestMoves.Count - 1);
+            bestMove = bestMoves[index];
             return bestMove;
         }
     }

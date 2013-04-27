@@ -205,9 +205,9 @@ namespace Nim
 
             Console.WriteLine(whoWon + " WINS!\n");
             if (whoGoesFirst.Equals(whoWon))
-                learn.updateStates(false, turnsTaken);
-            else
                 learn.updateStates(true, turnsTaken);
+            else
+                learn.updateStates(false, turnsTaken);
         }
     }
 

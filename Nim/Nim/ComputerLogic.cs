@@ -50,7 +50,7 @@ namespace Nim
 
         public int[] findBestMove(Learner l)
         {
-            GameState move = l.pickBestMove(turnCombos);
+            GameState move = l.pickBestMoves(turnCombos);
             int pieces = 1;
             int row = 1;
             if (row1 > move.row1)
@@ -70,31 +70,5 @@ namespace Nim
 
             return new int[] { row, pieces };
         }
-
-        public int[] getRandomMove()
-        {
-            GameState move;
-            int index = gen.Next(0, turnCombos.Count-1);
-            move = turnCombos[index];
-            int pieces = 1;
-            int row = 1;
-            if (row1 > move.row1)
-            {
-                pieces = row1 - move.row1;
-            }
-            else if (row2 > move.row2)
-            {
-                pieces = row2 - move.row2;
-                row = 2;
-            }
-            else
-            {
-                pieces = row3 - move.row3;
-                row = 3;
-            }
-            
-            return new int[]{row, pieces};// make use of the move here instead of this array
-        }
-
     }
 }

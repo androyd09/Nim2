@@ -54,9 +54,9 @@ namespace Nim
             if (obj == null || GetType() != obj.GetType())
                 return false;
 
-            GameState fooItem = obj as GameState;
+            GameState state = obj as GameState;
 
-            return (fooItem.row1 == this.row1) && (fooItem.row2 == this.row2) && (fooItem.row3 == this.row3);
+            return (state.row1 == this.row1) && (state.row2 == this.row2) && (state.row3 == this.row3);
         }
     }
 }
