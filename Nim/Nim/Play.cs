@@ -61,21 +61,33 @@ namespace Nim
         {
             newGame();
             bool gameOver = false;
-            while (!gameOver)
+            int turn = 1;
+            while (!gameOver && turn!=0)
             {
-                playersTurn();
-                gameOver = currentState.checkForGameOver();
-                if (gameOver)
+                if (turn == 1)
                 {
-                    Console.WriteLine("YOU LOST!\n");
-                    break;
+                    playersTurn();
+                    gameOver = currentState.checkForGameOver();
+                    if (gameOver)
+                    {
+                        Console.WriteLine("YOU LOST!\n");
+                        turn = 0;
+                    }
+                    else
+                    { turn = 2; }
                 }
                 
-                computersTurn();
-                gameOver = currentState.checkForGameOver();
-                if (gameOver)
+                if (turn == 2)
                 {
-                    Console.WriteLine("YOU WON!\n");
+                    computersTurn();
+                    gameOver = currentState.checkForGameOver();
+                    if (gameOver)
+                    {
+                        Console.WriteLine("YOU WON!\n");
+                        turn = 0;
+                    }
+                    else
+                    { turn = 1; }
                 }
                 
             }
@@ -155,28 +167,40 @@ namespace Nim
             
         }
 
+
         public bool checkRow(int row)
         {
             bool notZero = false;
-            if(row == 1 && currentState.row1 > 0)
+            if(isNotZero(row))
+            {
                 notZero = true;
-            else if (row == 2 && currentState.row2 > 0)
-                notZero = true;
-            else if (row == 3 && currentState.row3 > 0)
-                notZero = true;
+            }
             return notZero;
         }
+
+        public bool isNotZero(int row)
+        {
+            return ((row == 1 && currentState.row1 > 0) 
+                || (row == 2 && currentState.row2 > 0) 
+                || (row == 3 && currentState.row3 > 0));
+        }
+
 
         public bool checkMove(int row, int num)
         {
             bool canMove = false;
-            if (row == 1 && currentState.row1 >= num)
+            if(isMovable(row,num))
+            {
                 canMove = true;
-            else if (row == 2 && currentState.row2 >= num)
-                canMove = true;
-            else if (row == 3 && currentState.row3 >= num)
-                canMove = true;
+            }
             return canMove;
+        }
+
+        public bool isMovable(int row, int num)
+        {
+            return ((row == 1 && currentState.row1 >= num)
+                || (row == 2 && currentState.row2 >= num)
+                || (row == 3 && currentState.row3 >=num));
         }
 
         public void askToPlayAgain()
